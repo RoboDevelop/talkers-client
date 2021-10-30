@@ -13,7 +13,7 @@ export default function Chat() {
     return (
       <div>
       {chats.map((chats)=>{
-          return <Noteitem  chats={chats} setusername={setusername} myusername={myusername} setchat={setchat}/>  
+          return <Noteitem getChats={getChats} chats={chats} setusername={setusername} myusername={myusername} setchat={setchat}/>  
       })}
       </div>
 

@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import Msg from "./Msg";
 
 const Chatboxitem = (props) => {
-  const { chats, username, myusername, chat } = props;
+  const { chats, getChats, username, myusername, chat } = props;
   const history = useHistory();
 
   const routeChange = () => {
@@ -25,6 +25,7 @@ let msg = "";
         msg: msg,
       }),
     });
+    getChats();
     const json = await response.json();
     if(json.error) {
       alert(json.error);
