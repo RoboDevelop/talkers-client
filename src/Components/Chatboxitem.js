@@ -6,14 +6,38 @@ const Chatboxitem = (props) => {
   const { chats, username, myusername, chat } = props;
   const history = useHistory();
 
-  const routeChange = ()=> { 
-    let path = `/main-page/chats`; 
+  const routeChange = () => {
+    let path = `/main-page/chats`;
     history.push(path);
+  };
+
+let msg = "";
+  const sendmsg = async (e)=>{
+    e.preventDefault();
+    document.getElementById("msg").value = "";
+    const response = await fetch(`https://talkers0.herokuapp.com/api/chats/updatechat/${chat._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "user-token": localStorage.getItem('token'),
+      },
+      body: JSON.stringify({
+        msg: msg,
+      }),
+    });
+    const json = await response.json();
+    if(json.error) {
+      alert(json.error);
+    }
+
   }
+
+  const onChange = (e) => {
+    msg = e.target.value;
+  };
 
   return (
     <>
-
       <div class="main-container">
         <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
           <div className="container-fluid">
@@ -79,22 +103,40 @@ const Chatboxitem = (props) => {
           </div>
         </nav>
         <div id="msgcontainer " className="my-5">
-        {chat?
-            chat.date.map((date) => {
-              return (
-                <Msg
-                key={chat.date.indexOf(date)}
-                date={date}
-                chat={chat}
-                username={username}
-                myusername={myusername}
-                />
+          {chat.chats
+            ? chat.chats.date.map((date) => {
+                return (
+                  <Msg
+                    key={chat.chats.date.indexOf(date)}
+                    date={date}
+                    chat={chat}
+                    username={username}
+                    myusername={myusername}
+                  />
                 );
               })
-              : routeChange()
-            }
-
+            : routeChange()}
         </div>
+        <form class="row g-3" onSubmit={sendmsg}>
+          <div class="col-auto">
+            <label for="inputPassword2" class="visually-hidden">
+              Enter something
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder=" Enter something"
+              name="msg"
+              id="msg"
+              onChange={onChange}
+            />
+          </div>
+          <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-3">
+              Send
+            </button>
+          </div>
+        </form>
       </div>
     </>
   );

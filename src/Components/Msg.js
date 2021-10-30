@@ -4,7 +4,7 @@ const Msg = (props) => {
   const { date, key, chat, username, myusername } = props;
   return (
 
-    <div className={`message ${myusername === chat.username[chat.date.indexOf(date)]? "right" : "left"}`}>{chat.msg[chat.date.indexOf(date)]}</div>
+    <div className={`message ${myusername === chat.chats.username[chat.chats.date.indexOf(date)]? "right" : "left"}`}>{chat.chats.msg[chat.chats.date.indexOf(date)]}</div>
   
   );
 };

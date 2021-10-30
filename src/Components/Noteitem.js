@@ -19,7 +19,7 @@ const Noteitem = (props) => {
     
           <Link to="/chatbox" className="list-group-item list-group-item-action py-3 lh-tight" onClick={()=>{
             setusername(chats.username[chats.username[0] === myusername ? 1 : 0]);
-            setchat(chats.chats);
+            setchat(chats);
           }}>
             <div className="d-flex w-100 align-items-center justify-content-between">
               <strong className="mb-1">{chats.username[chats.username[0] === myusername ? 1 : 0]}</strong>
