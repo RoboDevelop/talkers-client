@@ -1,9 +1,53 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
+import noteContext from "../context/notes/noteContext";
 
 export default function Navbar() {
+  const context = useContext(noteContext);
+  const { setmyusername, getChats, setChats, setusername, setchat } = context;
+let username = "";
+  const finduser = async (e)=>{
+    e.preventDefault();
+    const response = await fetch("https://talkers0.herokuapp.com/api/chats/addchat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "user-token": localStorage.getItem('token'),
+      },
+      body: JSON.stringify({
+        addusername: username,
+      }),
+    });
+    getChats();
+    const json = await response.json();
+    if(json.error) {
+      alert(json.error);
+    }
+  }
+
+  const onChange = (e) => {
+    username = e.target.value;
+  };
+
+  const signout = () => {
+    setmyusername("");
+    setChats([]);
+    setusername("");
+    setchat("");
+    localStorage.removeItem('token')
+    history.push("/");
+  };
+
   const location = useLocation();
+
+  const history = useHistory();
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      history.push("/");
+    }
+  }, []);
+
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -53,9 +97,9 @@ export default function Navbar() {
               <hr className="dropdown-divider" />
             </li>
             <li>
-              <Link className="dropdown-item" to="/">
+              <p className="dropdown-item"  onClick={signout}>
                 Sign out
-              </Link>
+              </p>
             </li>
           </ul>
           <button
@@ -113,12 +157,15 @@ export default function Navbar() {
                 </Link>
               </li>
             </ul>
-            <form className="d-flex">
+            <form className="d-flex" onSubmit={finduser}>
               <input
                 className="form-control me-2"
                 type="search"
                 placeholder="Find new users"
                 aria-label="Search"
+                name="username"
+                id="username"
+                onChange={onChange}
               />
               <button className="btn btn-outline-success" type="submit">
                 Search

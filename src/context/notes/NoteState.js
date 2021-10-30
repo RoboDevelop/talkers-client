@@ -6,7 +6,7 @@ const NoteState = (props) => {
   const [username, setusername] = useState("");
   const [chat, setchat] = useState("");
   const host = "https://talkers0.herokuapp.com"
-  const myusername = "dhaval";
+  const [myusername, setmyusername] = useState("")
 
   // Get all Chats
   const getChats = async () => {
@@ -15,8 +15,7 @@ const NoteState = (props) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "user-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjE3OTg1NGI1MDgyYTEyM2E1ODIxYjY2In0sImlhdCI6MTYzNTQxNDMzOX0.ehM6Gbjumb3WErOm4Uczp3unsm72Zfp_ybsGCKolwAw",
+        "user-token": localStorage.getItem('token'),
       },
     });
     const json = await response.json();
@@ -32,8 +31,7 @@ const NoteState = (props) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        "user-token":
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjE3OTg1NGI1MDgyYTEyM2E1ODIxYjY2In0sImlhdCI6MTYzNTQxNDMzOX0.ehM6Gbjumb3WErOm4Uczp3unsm72Zfp_ybsGCKolwAw",
+        "user-token": localStorage.getItem('token'),
     },
       body: JSON.stringify({msg, addusername})
     });
@@ -64,8 +62,7 @@ const NoteState = (props) => {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        "user-token":
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjE3OTg1NGI1MDgyYTEyM2E1ODIxYjY2In0sImlhdCI6MTYzNTQxNDMzOX0.ehM6Gbjumb3WErOm4Uczp3unsm72Zfp_ybsGCKolwAw",
+        "user-token": localStorage.getItem('token'),
     },
       body: JSON.stringify({msg})
     });
@@ -80,7 +77,7 @@ const NoteState = (props) => {
 
   return (
     <NoteContext.Provider
-      value={{ chats, setChats, username, setusername, chat, setchat, myusername, getChats, addChat, updateChat}}
+      value={{ chats, setChats, username, setusername, chat, setchat, myusername,setmyusername, getChats, addChat, updateChat}}
     >
       {props.children}
     </NoteContext.Provider>

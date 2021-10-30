@@ -1,19 +1,69 @@
-import React from "react";
+import React, { useState, useContext} from "react";
+import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { useHistory} from "react-router-dom";
+import noteContext from "../context/notes/noteContext"
 
-export default function Signup() {
-  const history = useHistory();
+const Signup = (props) => {
+
+  const context = useContext(noteContext);
+  const {setmyusername} = context;
 
 
-  const routeChange = () => {
-    let path = `/main-page/chats`;
+  const [credentials, setCredentials] = useState({
+    username: "",
+    password: "",
+    cpassword: "",
+  });
+  let history = useHistory();
+
+
+  const routeChange = ()=> { 
+    let path = `/main-page/chats`; 
     history.push(path);
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if(credentials.password === credentials.cpassword){
+
+      const response = await fetch("https://talkers0.herokuapp.com/api/user/createuser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: credentials.username,
+          password: credentials.password,
+        }),
+      });
+      const json = await response.json();
+      console.log(json);
+      if (json.usertoken) {
+        // Save the auth token and redirect
+        localStorage.setItem("token", json.usertoken);
+        setmyusername(credentials.username);
+        history.push("/main-page/chats");
+      } 
+      else if(json.error) {
+        alert(json.error);
+      }
+      else {
+        alert("Invalid credentials");
+      }
+    }
+    else{
+      alert("Passwords do not match");
+    }
   };
+
+  const onChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
+
   return (
     <div className="text-center">
       <main className="form-signin">
-        <form>
+        <form onSubmit={handleSubmit}>
           <h1>
             <strong>
               <i> T</i>
@@ -26,8 +76,11 @@ export default function Signup() {
             <input
               type="text"
               className="form-control"
-              id="floatingInput"
-              placeholder="name@example.com"
+              placeholder="username"
+              value={credentials.email}
+              onChange={onChange}
+              id="username"
+              name="username"
             />
             <label htmlFor="floatingInput">Username</label>
           </div>
@@ -36,8 +89,11 @@ export default function Signup() {
             <input
               type="password"
               className="form-control"
-              id="floatingPassword"
               placeholder="Password"
+              value={credentials.password}
+              onChange={onChange}
+              name="password"
+              id="password"
             />
             <label htmlFor="floatingPassword">Password</label>
           </div>
@@ -45,8 +101,11 @@ export default function Signup() {
             <input
               type="password"
               className="form-control"
-              id="floatingPassword"
               placeholder="Confirm Password"
+              value={credentials.cpassword}
+              onChange={onChange}
+              name="cpassword"
+              id="cpassword"
             />
             <label htmlFor="floatingPassword">Confirm Password</label>
           </div>
@@ -60,7 +119,6 @@ export default function Signup() {
           <button
             className="w-100 btn btn-lg btn-primary"
             type="submit"
-            onClick={routeChange}
           >
             Sign up
           </button>
@@ -73,3 +131,5 @@ export default function Signup() {
     </div>
   );
 }
+
+export default Signup;

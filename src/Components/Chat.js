@@ -1,11 +1,15 @@
-import React, {useContext} from 'react'
+import React, {useContext,useEffect} from 'react'
 import noteContext from "../context/notes/noteContext"
 import Noteitem from './Noteitem';
 
 export default function Chat() {
   const context = useContext(noteContext);
   const { chats, setChats, username, setusername, chat, setchat, myusername, getChats, addChat, updateChat} = context;
-  getChats();
+
+  useEffect(() => {
+    getChats();
+  }, []);
+
     return (
       <div>
       {chats.map((chats)=>{
