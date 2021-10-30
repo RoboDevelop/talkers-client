@@ -4,9 +4,9 @@ import Chatboxitem from './Chatboxitem';
 
 export default function Chatbox() {
   const context = useContext(noteContext);
-  const {chats, setChats, username, chat} = context;
+  const {chats, setChats, username, myusername, chat} = context;
 
   return (
-    <Chatboxitem chats={chats} username={username} chat={chat}/>  
+    <Chatboxitem chats={chats} username={username}  myusername={myusername} chat={chat}/>  
   );
 }

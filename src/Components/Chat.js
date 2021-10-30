@@ -9,7 +9,7 @@ export default function Chat() {
     return (
       <div>
       {chats.map((chats)=>{
-          return <Noteitem chats={chats} setusername={setusername}  setchat={setchat}/>  
+          return <Noteitem  chats={chats} setusername={setusername} myusername={myusername} setchat={setchat}/>  
       })}
       </div>
 

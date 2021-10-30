@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Msg from "./Msg"
 
 const Chatboxitem = (props) => {
-  const { chats, username, chat } = props;
+  const { chats, username, myusername, chat } = props;
 
   return (
     <>
@@ -69,8 +69,8 @@ const Chatboxitem = (props) => {
       </nav>
 
       <div>
-      {chat.msg.map((msg)=>{
-          return <Msg msg={msg} chat={chat} username={username}/>    
+      {chat.date.map((date)=>{
+          return <Msg key={chat.date.indexOf(date)} date={date} chat={chat} username={username}  myusername={myusername}/>    
       })}
       </div>
     </>
