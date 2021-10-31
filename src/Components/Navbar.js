@@ -5,7 +5,7 @@ import noteContext from "../context/notes/noteContext";
 
 export default function Navbar() {
   const context = useContext(noteContext);
-  const { setmyusername, getChats, setChats, setusername, setchat } = context;
+  const { setmyusername, getChats, setChats, setusername} = context;
 let username = "";
   const finduser = async (e)=>{
     e.preventDefault();
@@ -34,7 +34,6 @@ let username = "";
     setmyusername("");
     setChats([]);
     setusername("");
-    setchat("");
     localStorage.removeItem('token')
     history.push("/");
   };

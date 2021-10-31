@@ -11,6 +11,7 @@ const Chatboxitem = (props) => {
     history.push(path);
   };
 
+
   let msg = "";
   const sendmsg = async (e) => {
     e.preventDefault();
@@ -28,11 +29,13 @@ const Chatboxitem = (props) => {
         }),
       }
     );
-    getChats();
     const json = await response.json();
     if (json.error) {
       alert(json.error);
     }
+    getChats();
+    document.getElementById("msgcontainer").scrollTo(0, document.getElementById("msgcontainer").scrollHeight);
+
   };
 
   const onChange = (e) => {
@@ -105,7 +108,7 @@ const Chatboxitem = (props) => {
             </div>
           </div>
         </nav>
-        <div id="msgcontainer " className="my-5">
+        <div id="msgcontainer" className="my-5">
           {chats[chatno].chats.date.map((date) => {
             return (
               <Msg
