@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import Msg from "./Msg";
 
 const Chatboxitem = (props) => {
-  const { chats, getChats, username, myusername, chat } = props;
+  const { chats, getChats, username, myusername, chatno } = props;
   const history = useHistory();
 
   const routeChange = () => {
@@ -11,27 +11,29 @@ const Chatboxitem = (props) => {
     history.push(path);
   };
 
-let msg = "";
-  const sendmsg = async (e)=>{
+  let msg = "";
+  const sendmsg = async (e) => {
     e.preventDefault();
     document.getElementById("msg").value = "";
-    const response = await fetch(`https://talkers0.herokuapp.com/api/chats/updatechat/${chat._id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "user-token": localStorage.getItem('token'),
-      },
-      body: JSON.stringify({
-        msg: msg,
-      }),
-    });
+    const response = await fetch(
+      `https://talkers0.herokuapp.com/api/chats/updatechat/${chats[chatno]._id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "user-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          msg: msg,
+        }),
+      }
+    );
     getChats();
     const json = await response.json();
-    if(json.error) {
+    if (json.error) {
       alert(json.error);
     }
-
-  }
+  };
 
   const onChange = (e) => {
     msg = e.target.value;
@@ -104,19 +106,17 @@ let msg = "";
           </div>
         </nav>
         <div id="msgcontainer " className="my-5">
-          {chat.chats
-            ? chat.chats.date.map((date) => {
-                return (
-                  <Msg
-                    key={chat.chats.date.indexOf(date)}
-                    date={date}
-                    chat={chat}
-                    username={username}
-                    myusername={myusername}
-                  />
-                );
-              })
-            : routeChange()}
+          {chats[chatno].chats.date.map((date) => {
+            return (
+              <Msg
+                key={chats[chatno].chats.date.indexOf(date)}
+                date={date}
+                chat={chats[chatno]}
+                username={username}
+                myusername={myusername}
+              />
+            );
+          })}
         </div>
         <form class="row g-3" onSubmit={sendmsg}>
           <div class="col-auto">

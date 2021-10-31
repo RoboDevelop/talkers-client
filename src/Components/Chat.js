@@ -4,16 +4,15 @@ import Noteitem from './Noteitem';
 
 export default function Chat() {
   const context = useContext(noteContext);
-  const { chats, setChats, username, setusername, chat, setchat, myusername, getChats, addChat, updateChat} = context;
-
+  const { chats, setChats, username, setusername, chatno, setchatno, myusername, getChats, addChat, updateChat} = context;
   useEffect(() => {
     getChats();
   }, []);
 
     return (
       <div>
-      {chats.map((chats)=>{
-          return <Noteitem getChats={getChats} chats={chats} setusername={setusername} myusername={myusername} setchat={setchat}/>  
+      {chats.map((chat)=>{
+          return <Noteitem getChats={getChats}  chats={chats} chat={chat} setusername={setusername} myusername={myusername} setchatno={setchatno}/>  
       })}
       </div>
 

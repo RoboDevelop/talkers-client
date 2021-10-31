@@ -2,7 +2,8 @@ import React from 'react'
 import { Link } from "react-router-dom";
 
 const Noteitem = (props) => {
-    const { chats ,setusername, setchat, myusername} = props;
+    const { chats, chat ,setusername, setchatno, myusername} = props;
+
     return (
         // <div className="col-md-3"> 
         //     <div className="card my-3"> 
@@ -17,15 +18,15 @@ const Noteitem = (props) => {
 
         <div className="list-group list-group-flush border-bottom scrollarea">
     
-          <Link to="/chatbox" className="list-group-item list-group-item-action py-3 lh-tight" onClick={()=>{
-            setusername(chats.username[chats.username[0] === myusername ? 1 : 0]);
-            setchat(chats);
+          <Link to="/chatbox" id="link" className="list-group-item list-group-item-action py-3 lh-tight" onClick={()=>{
+            setusername(chat.username[chat.username[0] === myusername ? 1 : 0]);
+            setchatno(chats.indexOf(chat));
           }}>
             <div className="d-flex w-100 align-items-center justify-content-between">
-              <strong className="mb-1">{chats.username[chats.username[0] === myusername ? 1 : 0]}</strong>
-              <small className="text-muted">{chats.chats.date[chats.chats.date.length - 1]}</small>
+              <strong className="mb-1">{chat.username[chat.username[0] === myusername ? 1 : 0]}</strong>
+              <small className="text-muted">{chat.chats.date[chat.chats.date.length - 1]}</small>
             </div>
-            <div className="col-10 mb-1 small">{chats.chats.msg[chats.chats.msg.length - 1]}</div>
+            <div className="col-10 mb-1 small">{chat.chats.msg[chat.chats.msg.length - 1]}</div>
           </Link>
         </div>
       </div>

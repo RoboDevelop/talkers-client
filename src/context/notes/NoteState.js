@@ -3,10 +3,10 @@ import { useState } from "react";
 
 const NoteState = (props) => {
   const [chats, setChats] = useState([]);
-  const [username, setusername] = useState("");
-  const [chat, setchat] = useState("");
+  const [username, setusername] = useState([]);
+  const [chatno, setchatno] = useState(0);
   const host = "https://talkers0.herokuapp.com"
-  const [myusername, setmyusername] = useState("")
+  const [myusername, setmyusername] = useState([])
 
   // Get all Chats
   const getChats = async () => {
@@ -77,7 +77,7 @@ const NoteState = (props) => {
 
   return (
     <NoteContext.Provider
-      value={{ chats, setChats, username, setusername, chat, setchat, myusername,setmyusername, getChats, addChat, updateChat}}
+      value={{ chats, setChats, username, setusername, chatno, setchatno, myusername,setmyusername, getChats, addChat, updateChat}}
     >
       {props.children}
     </NoteContext.Provider>
