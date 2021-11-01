@@ -1,14 +1,8 @@
-import React, { useState, useContext} from "react";
+import React, { useState} from "react";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
-import noteContext from "../context/notes/noteContext"
 
-const Signup = (props) => {
-
-  const context = useContext(noteContext);
-  const {setmyusername} = context;
-
-
+const Signup = () => {
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -16,11 +10,6 @@ const Signup = (props) => {
   });
   let history = useHistory();
 
-
-  const routeChange = ()=> { 
-    let path = `/main-page/chats`; 
-    history.push(path);
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,7 +30,6 @@ const Signup = (props) => {
       if (json.usertoken) {
         // Save the auth token and redirect
         localStorage.setItem("token", json.usertoken);
-        setmyusername(credentials.username);
         history.push("/main-page/chats");
       } 
       else if(json.error) {

@@ -3,10 +3,26 @@ import { useState } from "react";
 
 const NoteState = (props) => {
   const [chats, setChats] = useState([]);
-  const [username, setusername] = useState([]);
+  const username = "";
   const [chatno, setchatno] = useState(0);
   const host = "https://talkers0.herokuapp.com"
   const [myusername, setmyusername] = useState([])
+
+
+  // Get user
+  const getusername = async () => {
+    // API Call
+    const response = await fetch(`${host}/api/user/getuserinfo`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "user-token": localStorage.getItem('token'),
+      },
+    });
+    const json = await response.json();
+    setmyusername(json.username);
+  };
+
 
   // Get all Chats
   const getChats = async () => {
@@ -24,7 +40,7 @@ const NoteState = (props) => {
   
 
   // Add a Chat
-  const addChat = async (msg, addusername) => {
+  const addChat = async (addusername) => {
     // TODO: API Call
     // API Call 
     const response = await fetch(`${host}/api/chats/addchat`, {
@@ -33,7 +49,7 @@ const NoteState = (props) => {
         'Content-Type': 'application/json',
         "user-token": localStorage.getItem('token'),
     },
-      body: JSON.stringify({msg, addusername})
+      body: JSON.stringify({addusername})
     });
 
     const chat = await response.json();
@@ -77,7 +93,7 @@ const NoteState = (props) => {
 
   return (
     <NoteContext.Provider
-      value={{ chats, setChats, username, setusername, chatno, setchatno, myusername,setmyusername, getChats, addChat, updateChat}}
+      value={{ chats, setChats, username, chatno, setchatno, getusername, myusername,setmyusername, getChats, addChat, updateChat}}
     >
       {props.children}
     </NoteContext.Provider>

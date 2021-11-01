@@ -1,10 +1,10 @@
 import React, {useContext,useEffect} from 'react'
 import noteContext from "../context/notes/noteContext"
-import Noteitem from './Noteitem';
+import Homepage from '../home/home';
 
-export default function Chat() {
+export default function Chats({socket}) {
   const context = useContext(noteContext);
-  const { chats, setChats, username, setusername, chatno, setchatno, myusername, getChats, addChat, updateChat} = context;
+  const { chats, myusername, getChats, getusername, setchatno} = context;
   useEffect(() => {
     getChats();
   }, []);
@@ -12,7 +12,7 @@ export default function Chat() {
     return (
       <div>
       {chats.map((chat)=>{
-          return <Noteitem getChats={getChats}  chats={chats} chat={chat} setusername={setusername} myusername={myusername} setchatno={setchatno}/>  
+          return <Homepage key={chat._id} chats={chats} socket={socket} setchatno={setchatno} chat={chat} getusername={getusername} myusername={myusername}/>
       })}
       </div>
 

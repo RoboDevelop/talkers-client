@@ -5,36 +5,25 @@ import noteContext from "../context/notes/noteContext";
 
 export default function Navbar() {
   const context = useContext(noteContext);
-  const { setmyusername, getChats, setChats, setusername} = context;
-let username = "";
-  const finduser = async (e)=>{
+  const { setmyusername, addChat, chats, getChats, setChats, setusername } = context;
+  let username = "";
+
+  const finduser = async (e) => {
     e.preventDefault();
-    const response = await fetch("https://talkers0.herokuapp.com/api/chats/addchat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "user-token": localStorage.getItem('token'),
-      },
-      body: JSON.stringify({
-        addusername: username,
-      }),
+    chats.forEach(element => {
+      if(!element.username.includes(username)){
+        addChat();
+      }
     });
-    getChats();
-    const json = await response.json();
-    if(json.error) {
-      alert(json.error);
-    }
-  }
+  };
 
   const onChange = (e) => {
     username = e.target.value;
   };
 
   const signout = () => {
-    setmyusername("");
     setChats([]);
-    setusername("");
-    localStorage.removeItem('token')
+    localStorage.removeItem("token");
     history.push("/");
   };
 
@@ -96,7 +85,7 @@ let username = "";
               <hr className="dropdown-divider" />
             </li>
             <li>
-              <p className="dropdown-item"  onClick={signout}>
+              <p className="dropdown-item" onClick={signout}>
                 Sign out
               </p>
             </li>

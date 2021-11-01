@@ -25,6 +25,7 @@ const Chatboxitem = (props) => {
           "user-token": localStorage.getItem("token"),
         },
         body: JSON.stringify({
+          
           msg: msg,
         }),
       }
@@ -34,8 +35,6 @@ const Chatboxitem = (props) => {
       alert(json.error);
     }
     getChats();
-    document.getElementById("msgcontainer").scrollTo(0, document.getElementById("msgcontainer").scrollHeight);
-
   };
 
   const onChange = (e) => {
